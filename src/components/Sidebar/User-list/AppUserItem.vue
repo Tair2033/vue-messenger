@@ -1,5 +1,9 @@
 <template>
-    <div class="user-item" id="user-item" @click="userItemAction">
+    <div
+        class="user-item"
+        id="user-item"
+        @click="userItemAction(user.id)"
+    >
         <div class="user-icon__wrapper">
             <img
                 :src="user.icon"
@@ -18,13 +22,17 @@
 <script>
 export default {
     data() {
-        return {}
+        return {
+
+        }
     },
     props: ["user"],
     methods: {
-        userItemAction() {
+        userItemAction(id) {
             if (this.$store.state.defaultBox) this.$store.state.defaultBox = false;
             this.$emit('userItemAction', this.user)
+            console.log(id)
+            this.user.newMess = 0;
         },
         scroll() {
             const $el = document.getElementById('chat-mess')

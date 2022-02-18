@@ -1,6 +1,6 @@
 <template>
     <div class="chat-list" id="chat-list">
-        <app-user-item v-for="(user, id) in users" :user="user" :key="id" @userItemAction="getSelectedUser"/>
+        <app-user-item v-for="(user, id) in users" :user="user" ref="userItem" :key="id" @userItemAction="getSelectedUser"/>
     </div>
 </template>
 

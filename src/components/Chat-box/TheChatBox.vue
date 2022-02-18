@@ -33,7 +33,7 @@
                       @keydown.enter="sendMessage"
                   ></textarea>
 
-                <svg id="Capa_1" class="file" xmlns="http://www.w3.org/2000/svg"
+                <svg id="Capa_1" @click="selectFile" class="file" xmlns="http://www.w3.org/2000/svg"
                      width="40px" height="50px" viewBox="0 0 792 792" xml:space="preserve">
                     <g>
                         <path d="M306,150.48v459.36c0,0-6.696,96.408,91.476,96.408C486,706.248,486,609.84,486,609.84V126.72C486,126.72,486,0,360,0
@@ -74,6 +74,7 @@
                 </svg>
 
             </div>
+            <input type="file" @change="loadedFile" hidden ref="fileInput"/>
             <div class="send-mess" id="send-mess" @click="sendMessage">&#10148;</div>
         </div>
     </div>
@@ -84,33 +85,39 @@ import AppMessage from "@/components/Chat-box/AppMessage";
 
 export default {
     data() {
-      return {
-          newMessage: ''
-      }
+        return {
+            newMessage: ''
+        }
     },
     components: {AppMessage},
     props: ['selectedUser'],
     methods: {
         sendMessage() {
-            this.selectedUser.messages.push({
-                type: "text",
-                message: this.newMessage.trim(),
-                date: `${new Date().getDay()}.${new Date().getMonth()}.${new Date().getFullYear()}`,
-                sender: "me"
-            });
-            this.newMessage = ''
+            if (this.newMessage.length > 0) {
+                this.selectedUser.messages.push({
+                    type: "text",
+                    message: this.newMessage.trim(),
+                    date: `${new Date().getDay()}.${new Date().getMonth()}.${new Date().getFullYear()}`,
+                    sender: "me"
+                });
+                this.newMessage = ''
+            }
         },
         scrollPosition() {
             const chatMess = document.getElementById('chat-mess')
-            chatMess.scrollTo({
-                top: chatMess.scrollHeight,
-            } )
+            chatMess.scrollTop = chatMess.scrollHeight
+        },
+        selectFile() {
+            this.$refs.fileInput.click();
+        },
+        loadedFile() {
+
         }
     },
-    updated() {
+    mounted() {
         this.scrollPosition()
     },
-    beforeMount() {
+    updated() {
         this.scrollPosition()
     }
 }
