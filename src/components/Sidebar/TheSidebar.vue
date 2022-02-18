@@ -1,13 +1,26 @@
 <template>
   <div class="sidebar" id="sidebar">
     <the-brand/>
+    <authed-user v-if="$store.state.auth && $store.state.authedUserSection"/>
+    <the-search/>
+    <app-user-list :users="users" @userItemAction="getSelectedUser"/>
   </div>
 </template>
 
 <script>
-import TheBrand from "@/components/TheBrand";
+import TheBrand from "@/components/Sidebar/TheBrand";
+import AuthedUser from "@/components/Sidebar/TheAuthedUser";
+import TheSearch from "@/components/Sidebar/TheSearch";
+import AppUserList from "@/components/Sidebar/User-list/TheUserList";
+
 export default {
-  components: {TheBrand}
+  components: {TheSearch, AuthedUser, TheBrand, AppUserList},
+  props: ['users'],
+  methods:{
+    getSelectedUser(user) {
+      this.$emit('userItemAction', user)
+    }
+  }
 }
 </script>
 

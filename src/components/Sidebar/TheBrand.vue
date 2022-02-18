@@ -16,7 +16,7 @@
           </svg>
         </span>
     <strong class="brand-name">My Messenger</strong>
-    <button id="profile-btn" class="profile-btn" tabindex="1">
+    <button id="profile-btn" class="profile-btn" tabindex="1" @click="showUser">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
            stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -27,7 +27,13 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    showUser() {
+      this.$store.state.authedUserSection = !this.$store.state.authedUserSection;
+    }
+  }
+}
 </script>
 
 <style>
@@ -72,57 +78,4 @@ export default {}
   color: rgba(12, 11, 11, 0.76);
 }
 
-.avatar-container {
-  flex: 0 1 3.5em;
-  width: 3.5em;
-  height: 3.5em;
-  margin-bottom: .75em;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #efefef;
-  font-weight: bold;
-  font-size: 1em;
-  position: relative;
-  border: 2px solid var(--primaryColor);
-  box-shadow: 0 0 8px 2px rgba(0,0,0,0.16);
-}
-.avatar-container img {
-  max-width: 100%;
-  position: relative;
-  z-index: 1;
-}
-.avatar-container .char-avatar {
-  position: absolute;
-  z-index: 0;
-}
-.details {
-  flex: 0 1 100%;
-  text-align: center;
-
-}
-#name {
-  flex: 0 1 100%;
-  position: relative;
-  margin: 0 0 .3em 0;
-  font-size: .9em;
-  font-weight: 900;
-}
-
-.authed-user {
-  --primaryColor:  #3AD07A;
-  --hoverColor: #edfbf3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 1.5em .75em;
-  position: relative;
-  transition: max-height 1s, all .3s;
-  max-height: 500px;
-  transform-origin: top;
-  background-color: #fff;
-}
 </style>
