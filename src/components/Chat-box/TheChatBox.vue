@@ -12,7 +12,7 @@
         </div>
 
         <div class="chat-wrapper" id="chat-wrapper">
-            <div class="chat-mess" id="chat-mess" >
+            <div class="chat-mess" id="chat-mess">
                 <AppMessage
                     v-for="(message, id) in selectedUser.messages"
                     :key="id"
@@ -74,7 +74,7 @@
                 </svg>
 
             </div>
-            <input type="file" @change="loadedFile" hidden ref="fileInput"/>
+            <input type="file" @change="loadedFile" multiple hidden ref="fileInput"/>
             <div class="send-mess" id="send-mess" @click="sendMessage">&#10148;</div>
         </div>
     </div>
@@ -86,7 +86,8 @@ import AppMessage from "@/components/Chat-box/AppMessage";
 export default {
     data() {
         return {
-            newMessage: ''
+            newMessage: '',
+            files: []
         }
     },
     components: {AppMessage},
@@ -110,8 +111,28 @@ export default {
         selectFile() {
             this.$refs.fileInput.click();
         },
-        loadedFile() {
+        loadedFile(event) {
+            const files = Array.from(event.target.files)
 
+            files.forEach(file => {
+                if (!file.type.match('image')) {
+                    return
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = ev => {
+                    this.selectedUser.messages.push({
+                        type: "image",
+                        url: ev.target.result,
+                        date: `${new Date().getDay()}.${new Date().getMonth()}.${new Date().getFullYear()}`,
+                        sender: "me"
+                    });
+                    this.newMessage = ''
+                }
+
+                reader.readAsDataURL(file)
+            })
         }
     },
     mounted() {
